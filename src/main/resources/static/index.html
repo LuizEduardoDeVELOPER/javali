@@ -5,7 +5,7 @@
     <title>Casa das Tendas - Catálogo</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
-        header { background: #0044cc; color: white; padding: 1rem; text-align: center; border-radius: 8px; }
+        header { background: #272625; color: white; padding: 1rem; text-align: center; border-radius: 8px; }
         /* Essa é a caixa que alinha os itens */
         .container { 
             display: flex; 
@@ -17,16 +17,101 @@
         .card { background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 250px; padding: 15px; text-align: center; }
         .card h3 { color: #333; }
         .card p { color: #666; font-size: 14px; }
-        .preco { font-weight: bold; color: #27ae60; font-size: 18px; }
-        .botao { background: #0044cc; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
+        .preco { font-weight: bold; color: #ae4d27; font-size: 18px; }
+        .botao { background: #cc4b00; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
+    
+    /* Configuração da moldura do carrossel */
+.carrossel {
+    width: 100%;
+    max-width: 800px;
+    height: 300px;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Faixa que segura as 3 imagens lado a lado */
+.slides {
+    display: flex;
+    width: 300%; /* 3 fotos = 300% */
+    height: 100%;
+    animation: deslizar 12s infinite; /* Muda a cada 4 segundos */
+}
+
+.slides img {
+    width: 33.33%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Animação para trocar as fotos */
+@keyframes deslizar {
+    0% { margin-left: 0; }
+    30% { margin-left: 0; }
+    33% { margin-left: -100%; }
+    63% { margin-left: -100%; }
+    66% { margin-left: -200%; }
+    96% { margin-left: -200%; }
+    100% { margin-left: 0; }
+}
+    
+    
+    
+    
     </style>
 </head>
+
+
+
+
+
+
 <body>
 
 <header>
     <h1>Casa das Tendas</h1>
     <p>As melhores tendas para o seu evento!</p>
 </header>
+
+<header>
+    <h1>Casa das Tendas</h1>
+    <p>As melhores tendas para o seu evento!</p>
+</header>
+
+<section style="background: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: 20px auto; border: 2px solid #0e0f0f;">
+    <h2 style="color: #0f0f0f; text-align: center;">Cadastrar Nova Tenda</h2>
+    <form action="/cadastrar" method="post" style="display: flex; flex-direction: column; gap: 10px;">
+        <input type="text" name="nome" placeholder="Nome do Modelo" required style="padding: 10px;">
+        <input type="text" name="tamanho" placeholder="Tamanho (ex: 3x3)" required style="padding: 10px;">
+        <input type="number" step="0.01" name="preco" placeholder="Preço" required style="padding: 10px;">
+        <input type="text" name="material" placeholder="Material" required style="padding: 10px;">
+        <button type="submit" style="background: #ae3727; color: white; padding: 12px; border-radius: 5px; cursor: pointer;">
+            Realizar Pedido na Casa das Tendas
+        </button>
+    </form>
+</section>
+
+<div class="carrossel">
+    <div class="slides">
+        <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800" alt="Destaque 1">
+        <img src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?w=800" alt="Destaque 2">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5aVoVaxnnLnG-Fl_7cQ3TBCW4m_yi4a2ySQ&s" alt="Destaque 3">
+    </div>
+</div>
+
+
+
+
+
+
+<div class="container">
+    ...
+
+
+
+
 
 <div class="container">
     
@@ -92,6 +177,69 @@
         <p class="preco">R$ 350,00</p>
         <button class="botao">Ver Detalhes</button>
     </div>
+    <div class="card">
+        <h3>Tenda de Praia</h3>
+        <p>Tamanho: 1.8x1.8 metros</p>
+        <p>Material: Nylon</p>
+        <p class="preco">R$ 350,00</p>
+        <button class="botao">Ver Detalhes</button>
+    </div>
+    <div class="card">
+        <h3>Tenda de Praia</h3>
+        <p>Tamanho: 1.8x1.8 metros</p>
+        <p>Material: Nylon</p>
+        <p class="preco">R$ 350,00</p>
+        <button class="botao">Ver Detalhes</button>
+    </div>
+    <div class="card">
+        <h3>Tenda de Praia</h3>
+        <p>Tamanho: 1.8x1.8 metros</p>
+        <p>Material: Nylon</p>
+        <p class="preco">R$ 350,00</p>
+        <button class="botao">Ver Detalhes</button>
+    </div>
+    <div class="card">
+        <h3>Tenda de Praia</h3>
+        <p>Tamanho: 1.8x1.8 metros</p>
+        <p>Material: Nylon</p>
+        <p class="preco">R$ 350,00</p>
+        <button class="botao">Ver Detalhes</button>
+    </div>
+    <div class="card">
+        <h3>Tenda de Praia</h3>
+        <p>Tamanho: 1.8x1.8 metros</p>
+        <p>Material: Nylon</p>
+        <p class="preco">R$ 350,00</p>
+        <button class="botao">Ver Detalhes</button>
+    </div>
+    <div class="card">
+        <h3>Tenda de Praia</h3>
+        <p>Tamanho: 1.8x1.8 metros</p>
+        <p>Material: Nylon</p>
+        <p class="preco">R$ 350,00</p>
+        <button class="botao">Ver Detalhes</button>
+    </div>
+    <div class="card">
+        <h3>Tenda de Praia</h3>
+        <p>Tamanho: 1.8x1.8 metros</p>
+        <p>Material: Nylon</p>
+        <p class="preco">R$ 350,00</p>
+        <button class="botao">Ver Detalhes</button>
+    </div>
+    <div class="card">
+        <h3>Tenda de Praia</h3>
+        <p>Tamanho: 1.8x1.8 metros</p>
+        <p>Material: Nylon</p>
+        <p class="preco">R$ 350,00</p>
+        <button class="botao">Ver Detalhes</button>
+    </div>
+    <div class="card">
+        <h3>Tenda de Praia</h3>
+        <p>Tamanho: 1.8x1.8 metros</p>
+        <p>Material: Nylon</p>
+        <p class="preco">R$ 350,00</p>
+        <button class="botao">Ver Detalhes</button>
+    </div>
 
     <div class="card">
         <h3>Tenda de Praia</h3>
@@ -100,5 +248,8 @@
         <p class="preco">R$ 350,00</p>
         <button class="botao">Ver Detalhes</button>
     </div>
-</div> </body>
+</div> 
+
+
+</body>
 </html>
