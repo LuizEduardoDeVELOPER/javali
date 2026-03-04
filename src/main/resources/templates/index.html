@@ -4,23 +4,24 @@
     <meta charset="UTF-8">
     <title>Casa das Tendas - Catálogo</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
-        header { background: #272625; color: white; padding: 1rem; text-align: center; border-radius: 8px; }
-        /* Essa é a caixa que alinha os itens */
-        .container { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 20px; 
-            justify-content: center; 
-            margin-top: 20px; 
-        }
-        .card { background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 250px; padding: 15px; text-align: center; }
-        .card h3 { color: #333; }
-        .card p { color: #666; font-size: 14px; }
-        .preco { font-weight: bold; color: #ae4d27; font-size: 18px; }
-        .botao { background: #cc4b00; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
-    
-    /* Configuração da moldura do carrossel */
+      /* 1. Cores Gerais do Site */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #121212; /* Preto */
+    color: white;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    background: #ff6600; /* Laranja */
+    color: black;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* 2. CONSERTANDO O SEU CARROSSEL */
 .carrossel {
     width: 100%;
     max-width: 800px;
@@ -29,15 +30,14 @@
     overflow: hidden;
     border-radius: 10px;
     position: relative;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: 3px solid #ff6600; /* Borda laranja para combinar */
 }
 
-/* Faixa que segura as 3 imagens lado a lado */
 .slides {
     display: flex;
-    width: 300%; /* 3 fotos = 300% */
+    width: 300%;
     height: 100%;
-    animation: deslizar 12s infinite; /* Muda a cada 4 segundos */
+    animation: deslizar 12s infinite;
 }
 
 .slides img {
@@ -46,7 +46,6 @@
     object-fit: cover;
 }
 
-/* Animação para trocar as fotos */
 @keyframes deslizar {
     0% { margin-left: 0; }
     30% { margin-left: 0; }
@@ -56,9 +55,42 @@
     96% { margin-left: -200%; }
     100% { margin-left: 0; }
 }
-    
-    
-    
+
+/* 3. Estilo dos Cards (Produtos) */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    padding: 15px;
+    width: 250px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.card h3 { color: #ff6600; } /* Nomes das tendas em laranja */
+
+.preco {
+    font-weight: bold;
+    color: #ff6600;
+    font-size: 1.2rem;
+}
+
+.botao {
+    background: #ff6600;
+    color: black;
+    font-weight: bold;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+}
     
     </style>
 </head>
@@ -75,21 +107,15 @@
     <p>As melhores tendas para o seu evento!</p>
 </header>
 
-<header>
-    <h1>Casa das Tendas</h1>
-    <p>As melhores tendas para o seu evento!</p>
-</header>
 
-<section style="background: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: 20px auto; border: 2px solid #0e0f0f;">
-    <h2 style="color: #0f0f0f; text-align: center;">Cadastrar Nova Tenda</h2>
+
+<section style="max-width: 500px; margin: 20px auto; background: #1e1e1e; padding: 20px; border-radius: 10px; border: 1px solid #ff6600;">
+    <h2 style="color: #ff6600; text-align: center;">Cadastrar Nova Tenda</h2>
     <form action="/cadastrar" method="post" style="display: flex; flex-direction: column; gap: 10px;">
-        <input type="text" name="nome" placeholder="Nome do Modelo" required style="padding: 10px;">
-        <input type="text" name="tamanho" placeholder="Tamanho (ex: 3x3)" required style="padding: 10px;">
-        <input type="number" step="0.01" name="preco" placeholder="Preço" required style="padding: 10px;">
-        <input type="text" name="material" placeholder="Material" required style="padding: 10px;">
-        <button type="submit" style="background: #ae3727; color: white; padding: 12px; border-radius: 5px; cursor: pointer;">
-            Realizar Pedido na Casa das Tendas
-        </button>
+        <input type="text" name="nome" placeholder="Nome" style="padding: 10px; background: #333; color: white; border: none;">
+        <input type="text" name="tamanho" placeholder="Tamanho" style="padding: 10px; background: #333; color: white; border: none;">
+        <input type="number" step="0.01" name="preco" placeholder="Preço" style="padding: 10px; background: #333; color: white; border: none;">
+        <button type="submit" class="botao">Cadastrar</button>
     </form>
 </section>
 
@@ -107,21 +133,21 @@
 
 
 <div class="container">
-    ...
-
-
-
-
-
-<div class="container">
     
-    <div class="card">
-        <h3>Tenda Piramidal</h3>
-        <p>Tamanho: 3x3 metros</p>
-        <p>Material: Lona PVC Reforçada</p>
-        <p class="preco">R$ 1.200,00</p>
-        <button class="botao">Ver Detalhes</button>
+
+
+
+
+
+<<div class="container">
+    <div class="card" th:each="tenda : ${listaDeTendas}">
+        <h3 th:text="${tenda.nome}">Nome da Tenda</h3>
+        <p>Tamanho: <span th:text="${tenda.tamanho}">3x3</span></p>
+        <p>Material: <span th:text="${tenda.material}">Lona</span></p>
+        <p class="preco">R$ <span th:text="${tenda.preco}">0.00</span></p>
+        <button class="botao">Ver no WhatsApp</button>
     </div>
+</div>
 
     <div class="card">
         <h3>Tenda Sanfonada</h3>
