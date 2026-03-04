@@ -142,7 +142,13 @@ header {
     <p>As melhores tendas para o seu evento!</p>
 </header>
 
-
+<section style="max-width: 500px; margin: 20px auto; background: #27ae60; padding: 15px; border-radius: 10px; text-align: center; color: white;">
+    <h2 style="margin: 0;">💰 Faturamento Total</h2>
+    <p style="font-size: 2rem; font-weight: bold; margin: 10px 0;">
+        R$ <span th:text="${#numbers.formatDecimal(totalFaturado, 1, 2, 'COMMA')}">0,00</span>
+    </p>
+    <p>Total de vendas realizadas: <span th:text="${vendas.size()}">0</span></p>
+</section>
 
 <section style="max-width: 500px; margin: 20px auto; background: #1e1e1e; padding: 20px; border-radius: 10px; border: 1px solid #ff6600;">
     <h2 style="color: #ff6600; text-align: center;">Cadastrar Nova Tenda</h2>
@@ -194,12 +200,12 @@ header {
             <a th:if="${tenda.quantidade > 0}" th:href="@{/vender/{id}(id=${tenda.id})}" class="btn-acao btn-venda">
                 💰 Registrar Venda (-1)
             </a>
-<a th:href="'https://api.whatsapp.com/send?phone=5561999999999&text=Olá! Gostaria de saber mais sobre a ' + ${tenda.nome} + ' de tamanho ' + ${tenda.tamanho} + '. O valor no site é R$ ' + ${tenda.preco}" 
+<a th:href="'https://api.whatsapp.com/send?phone=5561999999999&text=Olá! Vi no site e tenho interesse na ' + ${tenda.nome}" 
    target="_blank" 
    class="btn-acao btn-whats" 
    style="text-decoration: none; text-align: center; display: block;">
    📱 Pedir no WhatsApp
-</a>           <a th:href="@{/excluir/{id}(id=${tenda.id})}" 
+</a>            <a th:href="@{/excluir/{id}(id=${tenda.id})}" 
                onclick="return confirm('Deseja realmente remover este produto do estoque?')"
                class="btn-acao btn-excluir">
                🗑️ Excluir do Sistema

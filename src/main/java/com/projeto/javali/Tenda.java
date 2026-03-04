@@ -16,8 +16,9 @@ public class Tenda {
     private String tamanho;
     private Double preco;
     private String material;
+    private Integer quantidade; // NOVO CAMPO PARA O ESTOQUE
 
-    // Métodos para o Java conseguir ler os dados (Getters e Setters)
+    // Getters e Setters (Os tradutores do Java)
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -32,4 +33,7 @@ public class Tenda {
 
     public String getMaterial() { return material; }
     public void setMaterial(String material) { this.material = material; }
+
+    public Integer getQuantidade() { return quantidade; }
+    public void setQuantidade(Integer quantidade) { this.quantidade = quantidade; }
 }
