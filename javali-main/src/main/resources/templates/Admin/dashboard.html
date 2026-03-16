@@ -23,21 +23,19 @@
 
 <body>
 
+<aside class="sidebar">
+    <div class="logo">CASA DAS TENDAS</div>
     <nav>
+        <a th:href="@{/admin/dashboard}" class="nav-item active">🏠 Dashboard</a>
+        <a th:href="@{/admin/produtos}" class="nav-item">📦 Produtos</a>
+        <a th:href="@{/admin/vendas}" class="nav-item">🛒 Vendas</a>
+        <a th:href="@{/admin/despesas}" class="nav-item">💸 Despesas</a>
+        <a th:href="@{/admin/relatorios}" class="nav-item">📊 Relatórios</a>
+    </nav>
+</aside>
 
-<a href="/admin">Dashboard</a>
 
-<a href="/admin/tendas">Produtos</a>
 
-<a href="/admin/vendas">Vendas</a>
-
-<a href="/admin/despesas">Despesas</a>
-
-<a href="/admin/produtos">Produtos</a>
-
-<a href="/admin/relatorios">Relatórios</a>
-
-</nav>
 
 
 

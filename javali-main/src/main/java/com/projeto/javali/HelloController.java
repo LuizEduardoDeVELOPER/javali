@@ -83,15 +83,20 @@ public String vendas(Model model){
 
 
 
-@GetMapping("/admin/despesas")
-public String despesas(){
-    return "admin/despesas";
-}
-
 @GetMapping("/admin/relatorios")
 public String relatorios(){
     return "admin/relatorios";
 }
 
+
+@Autowired
+private GastoService gastoService; // Agora o Java vai reconhecer este serviço!
+
+@GetMapping("/admin/despesas")
+public String despesas(Model model) {
+    model.addAttribute("gastos", gastoService.listarTodos());
+    model.addAttribute("totalGastos", gastoService.calcularTotalGastos());
+    return "admin/despesas";
+}
 
 }
