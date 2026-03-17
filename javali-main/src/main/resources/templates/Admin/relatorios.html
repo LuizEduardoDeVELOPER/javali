@@ -17,35 +17,50 @@
             <a th:href="@{/admin/relatorios}" class="nav-item active">📊 Relatórios</a>
         </nav>
     </aside>
+<main>
+    <header>
+        <h1 style="color: #ff6600;">📊 Centro de Relatórios</h1>
+        <p>Dados consolidados da Casa das Tendas</p>
+    </header>
 
-    <main>
-        <header>
-            <h1 style="color: #ff6600;">📊 Centro de Relatórios</h1>
-            <p>Extraia dados estratégicos para a tomada de decisão.</p>
-        </header>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        
+        <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
+            <h3 style="color: #ff6600;">Faturamento Bruto</h3>
+            <p style="color: #888; font-size: 0.9rem;">Total arrecadado com vendas.</p>
+            <h2 style="color: #27ae60; margin: 15px 0;">
+                R$ <span th:text="${#numbers.formatDecimal(totalFaturado, 1, 'POINT', 2, 'COMMA')}">0,00</span>
+            </h2>
+            <button class="botao" onclick="window.print()">Imprimir Resumo</button>
+        </section>
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-            
-            <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
-                <h3 style="color: #ff6600;">Vendas Totais</h3>
-                <p style="color: #888; font-size: 0.9rem;">Resumo detalhado de todas as transações do período.</p>
-                <button class="botao" style="width: 100%; margin-top: 15px;">PDF</button>
-            </section>
+      <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
+    <h3 style="color: #ff6600;">Fluxo de Caixa</h3>
+    <p style="color: #888; font-size: 0.9rem;">Comparativo entre faturamento e despesas reais.</p>
+    
+    <a th:href="@{/admin/relatorios/excel}" style="text-decoration: none;">
+        <button type="button" class="botao" style="width: 100%; background: #27ae60; color: white; cursor: pointer;">
+            📊 Baixar Excel (.csv)
+        </button>
+    </a>
+</section>
 
-            <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
-                <h3 style="color: #ff6600;">Fluxo de Caixa</h3>
-                <p style="color: #888; font-size: 0.9rem;">CR$ [[${#numbers.formatDecimal(lucroLiquido, 1, 'POINT', 2, 'COMMA')}]]</p>
-                
-                <button class="botao" style="width: 100%; margin-top: 15px; background: #27ae60; color: white;">EXCEL</button>
-            </section>
+        <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
+    <h3 style="color: #ff6600;">Relatório Executivo</h3>
+    <p style="color: #888; font-size: 0.9rem;">Controle de vendas, estoque e produtos.</p>
+    
+    <h2 style="color: #e74c3c; margin: 15px 0;">
+        R$ <span th:text="${#numbers.formatDecimal(totalGastos, 1, 'POINT', 2, 'COMMA')}">0,00</span>
+    </h2>
 
-            <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
-                <h3 style="color: #ff6600;">Giro de Estoque</h3>
-                <p style="color: #888; font-size: 0.9rem;">Quais tendas estão saindo mais e quais estão paradas.</p>
-                <button class="botao" style="width: 100%; margin-top: 15px;">IMPRIMIR</button>
-            </section>
+    <a th:href="@{/admin/relatorios/imprimir}" target="_blank" style="text-decoration: none;">
+        <button type="button" class="botao" style="width: 100%; cursor: pointer;">
+            📄 Gerar PDF Completo
+        </button>
+    </a>
+</section>
 
-        </div>
-    </main>
+    </div>
+</main>
 </body>
 </html>

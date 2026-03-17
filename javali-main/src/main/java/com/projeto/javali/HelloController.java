@@ -1,5 +1,7 @@
 package com.projeto.javali;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.PathVariable;
 
 
@@ -132,8 +137,41 @@ public String relatorios(Model model) {
     return "Admin/relatorios";
 }
 
+@GetMapping("/admin/relatorios/imprimir")
+public String imprimirRelatorio(Model model) {
+    model.addAttribute("vendas", vendaRepository.findAll());
+    model.addAttribute("produtos", repository.findAll());
+    
+    Double faturamento = vendaRepository.findAll().stream()
+            .mapToDouble(Venda::getValorVenda).sum();
+    model.addAttribute("totalFaturado", faturamento);
+    
+    return "Admin/relatorio-vendas-pdf"; 
+}
 
 
+@GetMapping("/admin/relatorios/excel")
+public void baixarExcel(HttpServletResponse response) throws IOException {
+    // 1. Configura o navegador para entender que é um download de arquivo
+    response.setContentType("text/csv");
+    response.setHeader("Content-Disposition", "attachment; filename=relatorio_vendas.csv");
+
+    // 2. Busca os dados
+    List<Venda> vendas = vendaRepository.findAll();
+
+    // 3. Escreve os dados no arquivo (separados por ponto e vírgula para o Excel brasileiro)
+    PrintWriter writer = response.getWriter();
+    writer.println("ID;Produto;Valor;Data"); // Cabeçalho
+
+    for (Venda v : vendas) {
+        writer.println(v.getId() + ";" + 
+                       v.getNomeTenda() + ";" + 
+                       v.getValorVenda() + ";" + 
+                       v.getDataHora());
+    }
+    writer.flush();
+    writer.close();
+}
 
 
 }
