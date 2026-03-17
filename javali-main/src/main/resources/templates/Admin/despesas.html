@@ -1,31 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Despesas - Admin</title>
+    <meta charset="UTF-8">
+    <title>Gestão de Despesas - Casa das Tendas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
-<nav>
+    <aside class="sidebar">
+        <div class="logo">CASA DAS TENDAS</div>
+        <nav>
+            <a th:href="@{/admin}" class="nav-item">🏠 Dashboard</a>
+            <a th:href="@{/admin/produtos}" class="nav-item">📦 Produtos</a>
+            <a th:href="@{/admin/vendas}" class="nav-item">🛒 Vendas</a>
+            <a th:href="@{/admin/despesas}" class="nav-item active">💸 Despesas</a>
+            <a th:href="@{/admin/relatorios}" class="nav-item">📊 Relatórios</a>
+        </nav>
+    </aside>
 
-<a href="/admin">Dashboard</a>
+    <main>
+        <header>
+            <h1 style="color: #ff6600;">💸 Gestão de Despesas</h1>
+            <p>Registre os custos (Ex: Lona, Frete, Manutenção)</p>
+        </header>
 
-<a href="/admin/tendas">Produtos</a>
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+            <section style="background: #1e1e1e; padding: 25px; border-radius: 12px; border: 1px solid #333;">
+                <h2 style="color: #ff6600; margin-top: 0;">Lançar Novo Gasto</h2>
+                <form action="/admin/despesas/salvar" method="post" style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="text" name="descricao" placeholder="Descrição (Ex: Compra de Lona)" required style="padding: 10px; background: #333; color: white; border: none;">
+                    <input type="number" step="0.01" name="valor" placeholder="Valor (R$)" required style="padding: 10px; background: #333; color: white; border: none;">
+                    <button type="submit" class="botao">Registrar Despesa</button>
+                </form>
+            </section>
 
-<a href="/admin/vendas">Vendas</a>
-
-<a href="/admin/despesas">Despesas</a>
-
-<a href="/admin/produtos">Produtos</a>
-
-<a href="/admin/relatorios">Relatórios</a>
-
-</nav>
-
-
-
-<h1>Controle de Despesas</h1>
-
-<a href="/admin">Voltar para Dashboard</a>
-
+            <section style="background: #1e1e1e; padding: 25px; border-radius: 12px; border: 1px solid #333;">
+                <h2 style="color: #ff6600; margin-top: 0;">Histórico de Saídas</h2>
+                <table style="width: 100%; border-collapse: collapse; color: white;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #ff6600; text-align: left;">
+                            <th style="padding: 10px;">Descrição</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="gasto : ${gastos}" style="border-bottom: 1px solid #333;">
+                            <td th:text="${gasto.descricao}" style="padding: 10px;"></td>
+                            <td th:text="'R$ ' + ${#numbers.formatDecimal(gasto.valor, 1, 'POINT', 2, 'COMMA')}" style="color: #ff4444;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </main>
 </body>
 </html>

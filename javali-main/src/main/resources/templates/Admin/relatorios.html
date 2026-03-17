@@ -1,34 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Relatórios - Admin</title>
+    <meta charset="UTF-8">
+    <title>Relatórios - Casa das Tendas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
 
-<nav>
+    <aside class="sidebar">
+        <div class="logo">CASA DAS TENDAS</div>
+        <nav>
+            <a th:href="@{/admin}" class="nav-item">🏠 Dashboard</a>
+            <a th:href="@{/admin/produtos}" class="nav-item">📦 Produtos</a>
+            <a th:href="@{/admin/vendas}" class="nav-item">🛒 Vendas</a>
+            <a th:href="@{/admin/despesas}" class="nav-item">💸 Despesas</a>
+            <a th:href="@{/admin/relatorios}" class="nav-item active">📊 Relatórios</a>
+        </nav>
+    </aside>
 
-<a href="/admin">Dashboard</a>
+    <main>
+        <header>
+            <h1 style="color: #ff6600;">📊 Centro de Relatórios</h1>
+            <p>Extraia dados estratégicos para a tomada de decisão.</p>
+        </header>
 
-<a href="/admin/tendas">Produtos</a>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            
+            <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
+                <h3 style="color: #ff6600;">Vendas Totais</h3>
+                <p style="color: #888; font-size: 0.9rem;">Resumo detalhado de todas as transações do período.</p>
+                <button class="botao" style="width: 100%; margin-top: 15px;">PDF</button>
+            </section>
 
-<a href="/admin/vendas">Vendas</a>
+            <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
+                <h3 style="color: #ff6600;">Fluxo de Caixa</h3>
+                <p style="color: #888; font-size: 0.9rem;">CR$ [[${#numbers.formatDecimal(lucroLiquido, 1, 'POINT', 2, 'COMMA')}]]</p>
+                
+                <button class="botao" style="width: 100%; margin-top: 15px; background: #27ae60; color: white;">EXCEL</button>
+            </section>
 
-<a href="/admin/despesas">Despesas</a>
+            <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
+                <h3 style="color: #ff6600;">Giro de Estoque</h3>
+                <p style="color: #888; font-size: 0.9rem;">Quais tendas estão saindo mais e quais estão paradas.</p>
+                <button class="botao" style="width: 100%; margin-top: 15px;">IMPRIMIR</button>
+            </section>
 
-<a href="/admin/produtos">Produtos</a>
-
-<a href="/admin/relatorios">Relatórios</a>
-
-</nav>
-
-
-
-<h1>Relatórios do Sistema</h1>
-
-<p>Aqui ficarão os relatórios de vendas, faturamento e estoque.</p>
-
-<a href="/admin">Voltar para Dashboard</a>
-
+        </div>
+    </main>
 </body>
 </html>

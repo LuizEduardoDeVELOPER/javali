@@ -1,29 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Produtos - Admin</title>
+    <meta charset="UTF-8">
+    <title>Gestão de Produtos - Casa das Tendas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
-    
-<nav>
 
-<a href="/admin">Dashboard</a> |
+    <aside class="sidebar">
+        <div class="logo">CASA DAS TENDAS</div>
+        <nav>
+            <a th:href="@{/admin}" class="nav-item">🏠 Dashboard</a>
+            <a th:href="@{/admin/produtos}" class="nav-item active">📦 Produtos</a>
+            <a th:href="@{/admin/vendas}" class="nav-item">🛒 Vendas</a>
+            <a th:href="@{/admin/despesas}" class="nav-item">💸 Despesas</a>
+            <a th:href="@{/admin/relatorios}" class="nav-item">📊 Relatórios</a>
+        </nav>
+    </aside>
 
-<a href="/admin/produtos">Produtos</a> |
+    <main>
+        <header>
+            <h1>Gestão de Produtos</h1>
+            <p>Visualize e gerencie o estoque de tendas</p>
+        </header>
 
-<a href="/admin/vendas">Vendas</a> |
-
-<a href="/admin/despesas">Despesas</a> |
-
-<a href="/admin/relatorios">Relatórios</a>
-
-</nav>
-
-<hr>
-<h1>Gestão de Produtos (Tendas)</h1>
-
-<a href="/admin">Voltar para Dashboard</a>
+        <section style="background: #1e1e1e; padding: 25px; border-radius: 12px; border: 1px solid #333;">
+            <table style="width: 100%; border-collapse: collapse; color: white;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #ff6600; text-align: left;">
+                        <th style="padding: 15px;">Modelo</th>
+                        <th>Tamanho</th>
+                        <th>Preço</th>
+                        <th>Estoque</th>
+                        <th style="text-align: center;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="tenda : ${listaDeTendas}" style="border-bottom: 1px solid #333; transition: 0.3s;">
+                        <td th:text="${tenda.nome}" style="padding: 15px; font-weight: bold;"></td>
+                        <td th:text="${tenda.tamanho}"></td>
+                        <td th:text="'R$ ' + ${#numbers.formatDecimal(tenda.preco, 1, 'POINT', 2, 'COMMA')}" style="color: #ff6600;"></td>
+                        <td>
+                            <span th:text="${tenda.quantidade}" 
+                                  th:style="${tenda.quantidade < 3} ? 'color: #ff4444; font-weight: bold;' : 'color: #27ae60;'">
+                            </span>
+                        </td>
+                        <td style="text-align: center;">
+                            <a th:href="@{/excluir/{id}(id=${tenda.id})}" 
+                               onclick="return confirm('Tem certeza que deseja excluir?')"
+                               style="color: #ff4444; text-decoration: none; font-size: 0.9rem; border: 1px solid #ff4444; padding: 5px 10px; border-radius: 4px;">
+                               🗑️ Excluir
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
 
 </body>
 </html>
