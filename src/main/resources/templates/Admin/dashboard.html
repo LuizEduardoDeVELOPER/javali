@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Administrativo - Casa das Tendas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">CASA DAS TENDAS</div>
+        <nav>
+            <a th:href="@{/admin}" class="nav-item active">🏠 Dashboard</a>
+            <a th:href="@{/admin/produtos}" class="nav-item">📦 Produtos</a>
+            <a th:href="@{/admin/vendas}" class="nav-item">🛒 Vendas</a>
+            <a th:href="@{/admin/despesas}" class="nav-item">💸 Despesas</a>
+            <a th:href="@{/admin/relatorios}" class="nav-item">📊 Relatórios</a>
+        </nav>
+    </aside>
+
+    <main>
+        <header>
+            <h1>Painel Administrativo</h1>
+            <p>Visão geral do faturamento e estoque</p>
+        </header>
+
+  <div class="dashboard-grid">
+    <div class="card-kpi" style="border-top-color: #27ae60;">
+        <h3>💰 Faturamento</h3>
+        <p th:text="'R$ ' + ${#numbers.formatDecimal(totalFaturado, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</p>
+        <a th:href="@{/admin/vendas}" style="color: #27ae60; font-size: 0.7rem; text-decoration: none;">Ver Detalhes →</a>
+    </div>
+
+    <div class="card-kpi" style="border-top-color: #e74c3c;">
+        <h3>📉 Gastos Totais</h3>
+        <p th:text="'R$ ' + ${#numbers.formatDecimal(totalGastos, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</p>
+        <a th:href="@{/admin/despesas}" style="color: #e74c3c; font-size: 0.7rem; text-decoration: none;">Gerenciar Gastos →</a>
+    </div>
+
+    <div class="card-kpi" style="border-top-color: #2980b9;">
+        <h3>🚀 Lucro Líquido</h3>
+        <p th:text="'R$ ' + ${#numbers.formatDecimal(lucroLiquido, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</p>
+        <a th:href="@{/admin/relatorios}" style="color: #2980b9; font-size: 0.7rem; text-decoration: none;">Relatório BI →</a>
+    </div>
+
+    <div class="card-kpi" style="border-top-color: #ff6600;">
+        <h3>🛍️ Total Vendas</h3>
+        <p th:text="${totalVendas}">0</p>
+        <span style="color: #888; font-size: 0.7rem;">Volume Total</span>
+    </div>
+</div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+            
+            <section>
+                <h2 style="color: #ff6600; margin-top: 0;">📊 Desempenho Semanal</h2>
+                <canvas id="graficoVendas"></canvas>
+            </section>
+
+            <section>
+                <h2 style="color: #ff6600; margin-top: 0;">➕ Cadastrar Tenda</h2>
+                <form action="/cadastrar" method="post" style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="text" name="nome" placeholder="Modelo" required>
+                    <input type="text" name="tamanho" placeholder="Tamanho">
+                    <input type="number" step="0.01" name="preco" placeholder="Preço (R$)">
+                    <input type="number" name="quantidade" placeholder="Estoque">
+                    <button type="submit">Salvar Tenda</button>
+                </form>
+            </section>
+
+        </div>
+    </main>
+
+   <script th:inline="javascript">
+    // Pegamos os dados reais que o Java enviou
+    const listaVendas = /*[[${vendas}]]*/ [];
+
+    // Agrupamos os valores das últimas 7 vendas para o gráfico
+    const labels = listaVendas.slice(-7).map(v => new Date(v.dataHora).toLocaleDateString('pt-BR'));
+    const valores = listaVendas.slice(-7).map(v => v.valorVenda);
+
+    const ctx = document.getElementById('meuGrafico').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels, // Datas reais das vendas
+            datasets: [{
+                label: 'Vendas Recentes (R$)',
+                data: valores, // Valores reais das vendas
+                backgroundColor: '#ff6600',
+                borderColor: '#cc5200',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#333' } },
+                x: { grid: { display: false } }
+            },
+            plugins: {
+                legend: { labels: { color: '#fff' } }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vendas - Casa das Tendas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">CASA DAS TENDAS</div>
+        <nav>
+            <a th:href="@{/admin}" class="nav-item">🏠 Dashboard</a>
+            <a th:href="@{/admin/produtos}" class="nav-item">📦 Produtos</a>
+            <a th:href="@{/admin/vendas}" class="nav-item active">🛒 Vendas</a>
+            <a th:href="@{/admin/despesas}" class="nav-item">💸 Despesas</a>
+        </nav>
+    </aside>
+
+    <main>
+        <header>
+            <h1 style="color: #ff6600;">🛒 Histórico de Vendas</h1>
+            <p>Listagem de todos os pedidos realizados no sistema</p>
+        </header>
+
+        <section style="background: #1e1e1e; padding: 25px; border-radius: 12px; border: 1px solid #333;">
+            <table style="width: 100%; border-collapse: collapse; color: white; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #ff6600;">
+                        <th style="padding: 15px;">ID</th>
+                        <th>Produto</th>
+                        <th>Valor</th>
+                        <th>Data e Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="venda : ${vendas}" style="border-bottom: 1px solid #333;">
+                        <td th:text="${venda.id}" style="padding: 15px; color: #888;"></td>
+                        <td th:text="${venda.nomeTenda}" style="font-weight: bold;"></td>
+                        <td th:text="'R$ ' + ${#numbers.formatDecimal(venda.valorVenda, 1, 'POINT', 2, 'COMMA')}" style="color: #27ae60;"></td>
+                        <td th:text="${#temporals.format(venda.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:if="${#lists.isEmpty(vendas)}" style="text-align: center; padding: 40px; color: #888;">
+                Nenhuma venda registrada ainda.
+            </div>
+        </section>
+    </main>
+</body>
+</html>

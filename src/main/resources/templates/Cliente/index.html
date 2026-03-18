@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Casa das Tendas - Brasília</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        :root { --laranja: #ff6600; --preto: #121212; --cinza: #1e1e1e; }
+        body { background-color: var(--preto); color: white; font-family: 'Segoe UI', sans-serif; }
+        
+        .navbar { background: #000; border-bottom: 3px solid var(--laranja); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; }
+        .hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80'); 
+                height: 400px; background-size: cover; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        
+        .btn-laranja { background: var(--laranja); color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        
+        .container { padding: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card-tenda { background: var(--cinza); border-radius: 10px; overflow: hidden; border: 1px solid #333; transition: 0.3s; }
+        .card-tenda:hover { transform: translateY(-10px); border-color: var(--laranja); }
+        .card-tenda img { width: 100%; height: 200px; object-fit: cover; }
+        .card-info { padding: 20px; text-align: center; }
+        .preco { color: var(--laranja); font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
+
+        /* MODAL DE COMPRA */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
+        .modal-content { background: var(--cinza); margin: 5% auto; padding: 30px; width: 400px; border-radius: 10px; border-top: 5px solid var(--laranja); }
+        input { width: 100%; padding: 10px; margin: 10px 0; background: #333; border: 1px solid #444; color: white; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div style="font-size: 1.5rem; font-weight: bold;">CASA DAS <span style="color: var(--laranja);">TENDAS</span></div>
+        <div>
+            <a href="#" style="color: white; margin-right: 20px; text-decoration: none;">Início</a>
+            <a th:href="@{/login}" class="btn-laranja" style="text-decoration: none;">Painel Admin</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1 style="font-size: 3rem; margin-bottom: 10px;">OFERTA <span style="color: var(--laranja);">IMBATÍVEL</span></h1>
+        <p>Estrutura Resistente - Lona em PVC - O Melhor Preço de Brasília!</p>
+    </header>
+
+    <div class="container">
+        <div class="card-tenda">
+            <img src="https://images.unsplash.com/photo-1565034946487-077786996e27?q=80&w=500" alt="Tenda Sanfonada">
+            <div class="card-info">
+                <h3>Tenda Sanfonada 3x3m</h3>
+                <p>Cores: Azul, Amarela, Vermelha, Laranja</p>
+                <div class="preco">R$ 500,00</div>
+                <button class="btn-laranja" onclick="abrirModal('Tenda Sanfonada 3x3m', 500.00)">Comprar Agora</button>
+            </div>
+        </div>
+
+        <div class="card-tenda">
+            <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=500" alt="Tenda Piramidal">
+            <div class="card-info">
+                <h3>Tenda Piramidal 5x5m</h3>
+                <p>Ideal para eventos de grande porte</p>
+                <div class="preco">R$ 1.200,00</div>
+                <button class="btn-laranja" onclick="abrirModal('Tenda Piramidal 5x5m', 1200.00)">Comprar Agora</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalCompra" class="modal">
+        <div class="modal-content">
+            <h2 style="color: var(--laranja);">Finalizar Pedido</h2>
+            <p id="tendaSelecionada"></p>
+            
+            <form th:action="@{/api/vendas/finalizar}" method="post">
+                <input type="hidden" name="nomeTenda" id="inputTenda">
+                <input type="hidden" name="valorVenda" id="inputValor">
+                
+                <label>Seu Nome:</label>
+                <input type="text" name="nomeComprador" required placeholder="Ex: Luiz Analista">
+                
+                <label>CPF:</label>
+                <input type="text" name="cpfComprador" required placeholder="000.000.000-00">
+                
+                <label>WhatsApp:</label>
+                <input type="text" name="telefoneComprador" required placeholder="(61) 99999-9999">
+
+                <button type="submit" class="btn-laranja" style="width: 100%; margin-top: 20px;">Confirmar e Pagar</button>
+                <button type="button" onclick="fecharModal()" style="background:none; color: gray; border:none; width:100%; margin-top:10px; cursor:pointer;">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function abrirModal(nome, valor) {
+            document.getElementById('modalCompra').style.display = 'block';
+            document.getElementById('tendaSelecionada').innerText = "Produto: " + nome;
+            document.getElementById('inputTenda').value = nome;
+            document.getElementById('inputValor').value = valor;
+        }
+        function fecharModal() {
+            document.getElementById('modalCompra').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

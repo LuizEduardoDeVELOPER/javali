@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatórios - Casa das Tendas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">CASA DAS TENDAS</div>
+        <nav>
+            <a th:href="@{/admin}" class="nav-item">🏠 Dashboard</a>
+            <a th:href="@{/admin/produtos}" class="nav-item">📦 Produtos</a>
+            <a th:href="@{/admin/vendas}" class="nav-item">🛒 Vendas</a>
+            <a th:href="@{/admin/despesas}" class="nav-item">💸 Despesas</a>
+            <a th:href="@{/admin/relatorios}" class="nav-item active">📊 Relatórios</a>
+        </nav>
+    </aside>
+<main>
+    <header>
+        <h1 style="color: #ff6600;">📊 Centro de Relatórios</h1>
+        <p>Dados consolidados da Casa das Tendas</p>
+    </header>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        
+        <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
+            <h3 style="color: #ff6600;">Faturamento Bruto</h3>
+            <p style="color: #888; font-size: 0.9rem;">Total arrecadado com vendas.</p>
+            <h2 style="color: #27ae60; margin: 15px 0;">
+                R$ <span th:text="${#numbers.formatDecimal(totalFaturado, 1, 'POINT', 2, 'COMMA')}">0,00</span>
+            </h2>
+            <button class="botao" onclick="window.print()">Imprimir Resumo</button>
+        </section>
+
+      <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
+    <h3 style="color: #ff6600;">Fluxo de Caixa</h3>
+    <p style="color: #888; font-size: 0.9rem;">Comparativo entre faturamento e despesas reais.</p>
+    
+    <a th:href="@{/admin/relatorios/excel}" style="text-decoration: none;">
+        <button type="button" class="botao" style="width: 100%; background: #27ae60; color: white; cursor: pointer;">
+            📊 Baixar Excel (.csv)
+        </button>
+    </a>
+</section>
+
+        <section style="background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center;">
+    <h3 style="color: #ff6600;">Relatório Executivo</h3>
+    <p style="color: #888; font-size: 0.9rem;">Controle de vendas, estoque e produtos.</p>
+    
+    <h2 style="color: #e74c3c; margin: 15px 0;">
+        R$ <span th:text="${#numbers.formatDecimal(totalGastos, 1, 'POINT', 2, 'COMMA')}">0,00</span>
+    </h2>
+
+    <a th:href="@{/admin/relatorios/imprimir}" target="_blank" style="text-decoration: none;">
+        <button type="button" class="botao" style="width: 100%; cursor: pointer;">
+            📄 Gerar PDF Completo
+        </button>
+    </a>
+</section>
+
+    </div>
+</main>
+</body>
+</html>

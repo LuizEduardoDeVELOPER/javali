@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Casa das Tendas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body { display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #121212; }
+        .login-card { background: #1a1a1a; padding: 40px; border-radius: 12px; border-top: 5px solid #ff6600; width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        input { margin-bottom: 15px; border: 1px solid #333; }
+        .error { color: #ff4444; font-size: 0.8rem; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1 style="color: #ff6600; margin-bottom: 30px;">CASA DAS TENDAS</h1>
+        
+        <p th:if="${erro}" class="error" th:text="${erro}"></p>
+
+        <form action="/logar" method="post">
+            <input type="text" name="usuario" placeholder="Usuário" required>
+            <input type="password" name="senha" placeholder="Senha" required>
+            <button type="submit" class="botao" style="width: 100%;">Acessar Sistema</button>
+        </form>
+    </div>
+</body>
+</html>
