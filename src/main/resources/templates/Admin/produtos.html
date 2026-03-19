@@ -4,6 +4,35 @@
     <meta charset="UTF-8">
     <title>Gestão de Produtos - Casa das Tendas</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        :root { --laranja: #ff6600; --fundo: #121212; --card: #1e1e1e; }
+        body { background-color: var(--fundo); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; }
+        
+        .sidebar { width: 250px; background: #000; height: 100vh; position: fixed; border-right: 1px solid #333; padding: 20px; }
+        .logo { color: var(--laranja); font-weight: bold; font-size: 1.2rem; margin-bottom: 30px; text-align: center; }
+        .nav-item { display: block; color: #ccc; text-decoration: none; padding: 12px; border-radius: 8px; margin-bottom: 5px; transition: 0.3s; }
+        .nav-item:hover, .nav-item.active { background: var(--laranja); color: white; }
+
+        main { margin-left: 290px; padding: 40px; width: calc(100% - 330px); }
+        header h1 { margin: 0; color: var(--laranja); }
+        header p { color: #888; margin-bottom: 30px; }
+
+        .cadastro-container { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid #333; margin-bottom: 40px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .campo { display: flex; flex-direction: column; }
+        .campo label { font-size: 0.8rem; color: #aaa; margin-bottom: 5px; }
+        .campo input { background: #333; border: 1px solid #444; color: white; padding: 10px; border-radius: 6px; outline: none; }
+        .campo input:focus { border-color: var(--laranja); }
+        
+        .btn-cadastrar { background: var(--laranja); color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; align-self: flex-end; transition: 0.3s; }
+        .btn-cadastrar:hover { background: #e65c00; }
+
+        .tabela-container { background: var(--card); border-radius: 12px; border: 1px solid #333; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #000; padding: 15px; text-align: left; color: var(--laranja); border-bottom: 2px solid var(--laranja); }
+        td { padding: 15px; border-bottom: 1px solid #333; }
+        .badge-estoque { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+    </style>
 </head>
 <body>
 
@@ -21,14 +50,41 @@
     <main>
         <header>
             <h1>Gestão de Produtos</h1>
-            <p>Visualize e gerencie o estoque de tendas</p>
+            <p>Cadastre novas tendas e gerencie o estoque da Taguatinga Norte</p>
         </header>
 
-        <section style="background: #1e1e1e; padding: 25px; border-radius: 12px; border: 1px solid #333;">
-            <table style="width: 100%; border-collapse: collapse; color: white;">
+        <section class="cadastro-container">
+            <h3 id="formTitulo" style="margin-top: 0; color: #ddd;">Novo Produto</h3>
+            <form th:action="@{/admin/produtos/salvar}" method="post" class="form-grid" id="produtoForm">
+                <div class="campo">
+                    <label>Modelo/Nome</label>
+                    <input type="text" name="nome" required>
+                </div>
+                <div class="campo">
+                    <label>Tamanho</label>
+                    <input type="text" name="tamanho" required>
+                </div>
+                <div class="campo">
+                    <label>Preço (R$)</label>
+                    <input type="number" step="0.01" name="preco" required>
+                </div>
+                <div class="campo">
+                    <label>Quantidade</label>
+                    <input type="number" name="quantidade" required>
+                </div>
+                <div class="campo" style="grid-column: span 2;">
+                    <label>Link da Foto Real (Instagram/Imgur)</label>
+                    <input type="text" name="imagemUrl">
+                </div>
+                <button type="submit" class="btn-cadastrar">📦 Salvar Produto</button>
+            </form>
+        </section>
+
+        <section class="tabela-container">
+            <table>
                 <thead>
-                    <tr style="border-bottom: 2px solid #ff6600; text-align: left;">
-                        <th style="padding: 15px;">Modelo</th>
+                    <tr>
+                        <th>Modelo</th>
                         <th>Tamanho</th>
                         <th>Preço</th>
                         <th>Estoque</th>
@@ -36,19 +92,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="tenda : ${listaDeTendas}" style="border-bottom: 1px solid #333; transition: 0.3s;">
-                        <td th:text="${tenda.nome}" style="padding: 15px; font-weight: bold;"></td>
+                    <tr th:each="tenda : ${listaDeTendas}">
+                        <td th:text="${tenda.nome}" style="font-weight: bold;"></td>
                         <td th:text="${tenda.tamanho}"></td>
-                        <td th:text="'R$ ' + ${#numbers.formatDecimal(tenda.preco, 1, 'POINT', 2, 'COMMA')}" style="color: #ff6600;"></td>
+                        <td th:text="'R$ ' + ${#numbers.formatDecimal(tenda.preco, 1, 'POINT', 2, 'COMMA')}" style="color: var(--laranja);"></td>
                         <td>
-                            <span th:text="${tenda.quantidade}" 
-                                  th:style="${tenda.quantidade < 3} ? 'color: #ff4444; font-weight: bold;' : 'color: #27ae60;'">
+                            <span th:text="${tenda.quantidade}" class="badge-estoque"
+                                  th:style="${tenda.quantidade < 3} ? 'background: #ff444433; color: #ff4444;' : 'background: #27ae6033; color: #27ae60;'">
                             </span>
                         </td>
-                        <td style="text-align: center;">
+                        <td style="text-align: center; display: flex; gap: 10px; justify-content: center;">
+                            <button type="button" th:onclick="preencherFormularioEditar([[${tenda.id}]], [[${tenda.nome}]], [[${tenda.tamanho}]], [[${tenda.preco}]], [[${tenda.quantidade}]], [[${tenda.imagemUrl}]])"
+                               style="background: none; color: #2ecc71; border: 1px solid #2ecc71; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">
+                               ✏️ Editar
+                            </button>
+
                             <a th:href="@{/excluir/{id}(id=${tenda.id})}" 
-                               onclick="return confirm('Tem certeza que deseja excluir?')"
-                               style="color: #ff4444; text-decoration: none; font-size: 0.9rem; border: 1px solid #ff4444; padding: 5px 10px; border-radius: 4px;">
+                               onclick="return confirm('Excluir este produto?')"
+                               style="color: #ff4444; text-decoration: none; border: 1px solid #ff4444; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">
                                🗑️ Excluir
                             </a>
                         </td>
@@ -58,5 +119,30 @@
         </section>
     </main>
 
+    <script th:inline="javascript">
+        function preencherFormularioEditar(id, nome, tamanho, preco, quantidade, imagemUrl) {
+            document.getElementById('formTitulo').innerText = "Editando Produto ID: " + id;
+            
+            document.getElementsByName('nome')[0].value = nome;
+            document.getElementsByName('tamanho')[0].value = tamanho;
+            document.getElementsByName('preco')[0].value = preco;
+            document.getElementsByName('quantidade')[0].value = quantidade;
+            document.getElementsByName('imagemUrl')[0].value = imagemUrl ? imagemUrl : '';
+
+            let form = document.getElementById('produtoForm');
+            let inputId = document.getElementById('inputIdEdit');
+            
+            if(!inputId) {
+                inputId = document.createElement('input');
+                inputId.type = 'hidden';
+                inputId.name = 'id';
+                inputId.id = 'inputIdEdit';
+                form.appendChild(inputId);
+            }
+            inputId.value = id;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>

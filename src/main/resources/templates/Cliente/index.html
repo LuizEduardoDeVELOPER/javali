@@ -3,97 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <title>Casa das Tendas - Brasília</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --laranja: #ff6600; --preto: #121212; --cinza: #1e1e1e; }
-        body { background-color: var(--preto); color: white; font-family: 'Segoe UI', sans-serif; }
+        :root { --laranja: #ff6600; --preto: #000000; --cinza: #1a1a1a; }
+        body { background: var(--preto); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; scroll-behavior: smooth; }
         
-        .navbar { background: #000; border-bottom: 3px solid var(--laranja); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; }
-        .hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80'); 
-                height: 400px; background-size: cover; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        
-        .btn-laranja { background: var(--laranja); color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
-        
-        .container { padding: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .card-tenda { background: var(--cinza); border-radius: 10px; overflow: hidden; border: 1px solid #333; transition: 0.3s; }
-        .card-tenda:hover { transform: translateY(-10px); border-color: var(--laranja); }
-        .card-tenda img { width: 100%; height: 200px; object-fit: cover; }
-        .card-info { padding: 20px; text-align: center; }
-        .preco { color: var(--laranja); font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
+        /* Menu Superior */
+        nav { background: #000; border-bottom: 2px solid var(--laranja); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.5rem; font-weight: bold; }
+        .menu-links a { color: white; text-decoration: none; margin-left: 25px; font-weight: 500; transition: 0.3s; }
+        .menu-links a:hover { color: var(--laranja); }
+        .btn-admin-nav { background: var(--laranja); color: white !important; padding: 8px 20px; border-radius: 5px; }
 
-        /* MODAL DE COMPRA */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
-        .modal-content { background: var(--cinza); margin: 5% auto; padding: 30px; width: 400px; border-radius: 10px; border-top: 5px solid var(--laranja); }
-        input { width: 100%; padding: 10px; margin: 10px 0; background: #333; border: 1px solid #444; color: white; }
+        /* Banner Hero Carrossel */
+        .hero { height: 450px; background-size: cover; background-position: center; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: background-image 1s ease-in-out; }
+
+        /* Assistente Virtual e WhatsApp */
+        .ajuda-container { position: fixed; bottom: 100px; right: 30px; z-index: 1000; display: flex; align-items: center; }
+        .avatar-ajuda { width: 65px; height: 65px; cursor: pointer; background: var(--laranja); border-radius: 50%; padding: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 2px solid white; }
+        .balao-dica { background: white; color: black; padding: 12px; border-radius: 12px; margin-right: 15px; font-size: 0.85rem; width: 180px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-weight: 500; position: relative; }
+        .balao-dica::after { content: ''; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); border-left: 10px solid white; border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
+        .wpp-float { position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
+
+        /* Grid de Produtos */
+        section { padding: 80px 50px; }
+        .titulo-sessao { text-align: center; margin-bottom: 40px; font-size: 2.2rem; }
+        .titulo-sessao span { color: var(--laranja); }
+        .grid-produtos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: var(--cinza); border-radius: 12px; border: 1px solid #333; overflow: hidden; transition: 0.4s; text-align: center; }
+        .card:hover { transform: translateY(-10px); border-color: var(--laranja); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .info { padding: 20px; }
+
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
+        .modal-content { background: var(--cinza); margin: 5% auto; padding: 30px; width: 90%; max-width: 400px; border-radius: 10px; border-top: 5px solid var(--laranja); }
+        .modal-content input { width: 100%; padding: 12px; margin: 10px 0; background: #333; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div style="font-size: 1.5rem; font-weight: bold;">CASA DAS <span style="color: var(--laranja);">TENDAS</span></div>
-        <div>
-            <a href="#" style="color: white; margin-right: 20px; text-decoration: none;">Início</a>
-            <a th:href="@{/login}" class="btn-laranja" style="text-decoration: none;">Painel Admin</a>
+    <nav>
+        <div class="logo">CASA DAS <span style="color: var(--laranja);">TENDAS</span></div>
+        <div class="menu-links">
+            <a href="#">Início</a>
+            <a href="#sobre">Sobre Nós</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#localizacao">Localização</a>
+            <a th:href="@{/login}" class="btn-admin-nav">Painel Admin</a>
         </div>
     </nav>
 
-    <header class="hero">
-        <h1 style="font-size: 3rem; margin-bottom: 10px;">OFERTA <span style="color: var(--laranja);">IMBATÍVEL</span></h1>
-        <p>Estrutura Resistente - Lona em PVC - O Melhor Preço de Brasília!</p>
+    <div class="ajuda-container">
+        <div class="balao-dica" id="dicaTexto">Olá! Sabia que estamos na QNH 3 de Taguatinga?</div>
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" class="avatar-ajuda" onclick="proximaDica()">
+    </div>
+
+    <header class="hero" id="slider">
+        <div class="hero-content">
+            <h1 style="font-size: 3.5rem;">OFERTA <span style="color: var(--laranja);">IMBATÍVEL</span></h1>
+            <p style="font-size: 1.3rem;">Estrutura Resistente - Lona em PVC - O Melhor Preço de Brasília!</p>
+            <br>
+            <a href="#produtos" style="background:var(--laranja); color:white; padding:15px 30px; text-decoration:none; font-weight:bold; border-radius:5px;">VER CATÁLOGO</a>
+        </div>
     </header>
 
-    <div class="container">
-        <div class="card-tenda">
-            <img src="https://images.unsplash.com/photo-1565034946487-077786996e27?q=80&w=500" alt="Tenda Sanfonada">
-            <div class="card-info">
-                <h3>Tenda Sanfonada 3x3m</h3>
-                <p>Cores: Azul, Amarela, Vermelha, Laranja</p>
-                <div class="preco">R$ 500,00</div>
-                <button class="btn-laranja" onclick="abrirModal('Tenda Sanfonada 3x3m', 500.00)">Comprar Agora</button>
-            </div>
+    <section id="sobre" style="background: #0a0a0a;">
+        <h2 class="titulo-sessao">SOBRE <span>NÓS</span></h2>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center; line-height: 1.8;">
+            <p>Referência em Taguatinga Norte, a Casa das Tendas BSB oferece as melhores soluções em coberturas de Brasília. Especialistas em tendas sanfonadas e piramidais de alta durabilidade.</p>
         </div>
+    </section>
 
-        <div class="card-tenda">
-            <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=500" alt="Tenda Piramidal">
-            <div class="card-info">
-                <h3>Tenda Piramidal 5x5m</h3>
-                <p>Ideal para eventos de grande porte</p>
-                <div class="preco">R$ 1.200,00</div>
-                <button class="btn-laranja" onclick="abrirModal('Tenda Piramidal 5x5m', 1200.00)">Comprar Agora</button>
+    <section id="produtos">
+        <h2 class="titulo-sessao">NOSSOS <span>PRODUTOS</span></h2>
+        <div class="grid-produtos">
+            <div class="card" th:each="t : ${produtos}">
+                <img th:src="${t.imagemUrl != null && !t.imagemUrl.isEmpty() ? t.imagemUrl : 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=500'}" alt="Tenda">
+                <div class="info">
+                    <h3 th:text="${t.nome}">Nome</h3>
+                    <p style="color: #888; font-size: 0.9rem;" th:text="${t.tamanho != null ? t.tamanho : 'Tamanho sob consulta'}"></p>
+                    <div style="color: var(--laranja); font-size: 1.5rem; font-weight: bold; margin: 10px 0;" 
+                         th:text="'R$ ' + ${t.preco}"></div>
+                    
+                    <button type="button" 
+                            style="background:var(--laranja); border:none; color:white; padding:10px 20px; width:100%; border-radius:5px; cursor:pointer; font-weight:bold;"
+                            th:attr="data-nome=${t.nome}, data-preco=${t.preco}"
+                            onclick="abrirModal(this.getAttribute('data-nome'), this.getAttribute('data-preco'))">
+                        COMPRAR AGORA
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <div id="modalCompra" class="modal">
         <div class="modal-content">
-            <h2 style="color: var(--laranja);">Finalizar Pedido</h2>
-            <p id="tendaSelecionada"></p>
-            
+            <h2 style="color: var(--laranja); text-align: center;">Finalizar Pedido</h2>
+            <p id="tendaNome" style="text-align: center; font-weight: bold;"></p>
             <form th:action="@{/api/vendas/finalizar}" method="post">
-                <input type="hidden" name="nomeTenda" id="inputTenda">
-                <input type="hidden" name="valorVenda" id="inputValor">
-                
-                <label>Seu Nome:</label>
-                <input type="text" name="nomeComprador" required placeholder="Ex: Luiz Analista">
-                
-                <label>CPF:</label>
-                <input type="text" name="cpfComprador" required placeholder="000.000.000-00">
-                
-                <label>WhatsApp:</label>
-                <input type="text" name="telefoneComprador" required placeholder="(61) 99999-9999">
-
-                <button type="submit" class="btn-laranja" style="width: 100%; margin-top: 20px;">Confirmar e Pagar</button>
-                <button type="button" onclick="fecharModal()" style="background:none; color: gray; border:none; width:100%; margin-top:10px; cursor:pointer;">Cancelar</button>
+                <input type="hidden" name="nomeTenda" id="inputNome">
+                <input type="hidden" name="valorVenda" id="inputPreco">
+                <input type="text" name="nomeComprador" placeholder="Nome Completo" required>
+                <input type="text" name="cpfComprador" placeholder="CPF" required>
+                <input type="text" name="telefoneComprador" placeholder="WhatsApp" required>
+                <button type="submit" style="background:var(--laranja); color:white; border:none; width:100%; padding:15px; border-radius:5px; cursor:pointer; font-weight:bold; margin-top:10px;">CONFIRMAR COMPRA</button>
+                <button type="button" onclick="fecharModal()" style="background:none; color:gray; border:none; width:100%; margin-top:10px; cursor:pointer;">Cancelar</button>
             </form>
         </div>
     </div>
 
+    <section id="localizacao" style="background: #0a0a0a;">
+        <h2 class="titulo-sessao">ONDE <span>ESTAMOS</span></h2>
+        <div style="text-align: center;">
+            <p><i class="fas fa-map-marker-alt" style="color: var(--laranja);"></i> QNH 3 - Taguatinga Norte, Brasília - DF</p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3839.123456789!2d-48.069!3d-15.808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDQ4JzI4LjgiUyA0OMKwMDQnMTEuMiJX!5e0!3m2!1spt-BR!2sbr!4v1620000000000!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0; border-radius: 15px; margin-top: 20px; filter: invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <a href="https://wa.me/5561999133335" class="wpp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <script>
-        function abrirModal(nome, valor) {
+        // Lógica do Carrossel (3 segundos)
+        const imagens = [
+            'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1200',
+            'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1200',
+            'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=1200'
+        ];
+        let idx = 0;
+        function mudarBanner() {
+            document.getElementById('slider').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${imagens[idx]}')`;
+            idx = (idx + 1) % imagens.length;
+        }
+        setInterval(mudarBanner, 3000);
+        mudarBanner();
+
+        // Lógica do Assistente Virtual
+        const dicas = [
+            "Sabia que entregamos em todo o DF?",
+            "Tendas sanfonadas montam em apenas 2 minutos!",
+            "Estamos na QNH 3, Taguatinga Norte!",
+            "Precisa de tenda piramidal? Temos os melhores preços!"
+        ];
+        let dIdx = 0;
+        function proximaDica() {
+            dIdx = (dIdx + 1) % dicas.length;
+            document.getElementById('dicaTexto').innerText = dicas[dIdx];
+        }
+
+        // Funções do Modal
+        function abrirModal(nome, preco) {
             document.getElementById('modalCompra').style.display = 'block';
-            document.getElementById('tendaSelecionada').innerText = "Produto: " + nome;
-            document.getElementById('inputTenda').value = nome;
-            document.getElementById('inputValor').value = valor;
+            document.getElementById('tendaNome').innerText = "Produto: " + nome;
+            document.getElementById('inputNome').value = nome;
+            document.getElementById('inputPreco').value = preco;
         }
         function fecharModal() {
             document.getElementById('modalCompra').style.display = 'none';

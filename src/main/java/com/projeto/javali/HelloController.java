@@ -27,6 +27,9 @@ public class HelloController {
     @Autowired
     private GastoService gastoService;
 
+    @Autowired
+    private GastoRepository gastoRepository;
+
     // --- MÓDULO DE LOGIN E ACESSO ---
     @GetMapping("/login")
     public String login() { return "login"; }
@@ -47,11 +50,12 @@ public class HelloController {
         return "redirect:/login";
     }
 
-    // --- MÓDULO CLIENTE (INTEGRAÇÃO REAL) ---
+    // --- MÓDULO CLIENTE (Ajustado para sua pasta Cliente) ---
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("produtos", repository.findAll());
-        return "index";
+        // Ajustado para o caminho da sua pasta na imagem
+        return "Cliente/index"; 
     }
 
     @PostMapping("/api/vendas/finalizar")
@@ -62,7 +66,6 @@ public class HelloController {
             @RequestParam String cpfComprador,
             @RequestParam String telefoneComprador) {
 
-        // 1. Registra a venda com os parâmetros completos solicitados
         Venda novaVenda = new Venda();
         novaVenda.setNomeTenda(nomeTenda);
         novaVenda.setValorVenda(valorVenda);
@@ -70,11 +73,10 @@ public class HelloController {
         novaVenda.setCpfComprador(cpfComprador);
         novaVenda.setTelefoneComprador(telefoneComprador);
         novaVenda.setDataHora(LocalDateTime.now());
-        novaVenda.setNomeVendedor("Site Online"); // Identifica a origem
+        novaVenda.setNomeVendedor("Site Online");
 
         vendaRepository.save(novaVenda);
 
-        // 2. Busca o produto para baixar estoque
         List<Tenda> tendas = repository.findAll();
         for (Tenda t : tendas) {
             if (t.getNome().equals(nomeTenda) && t.getQuantidade() > 0) {
@@ -134,6 +136,23 @@ public class HelloController {
         return "Admin/vendas";
     }
 
+    // --- MÓDULO DE DESPESAS ---
+    @GetMapping("/admin/despesas")
+    public String despesas(Model model, HttpSession session) {
+        if (session.getAttribute("usuarioLogado") == null) return "redirect:/login";
+
+        model.addAttribute("gastos", gastoService.listarTodos());
+        model.addAttribute("totalGastos", gastoService.calcularTotalGastos());
+        
+        return "Admin/despesas";
+    }
+
+    @PostMapping("/admin/despesas/salvar")
+    public String salvarDespesa(Gasto novoGasto) {
+        gastoRepository.save(novoGasto);
+        return "redirect:/admin/despesas";
+    }
+
     // --- RELATÓRIOS E EXCEL ---
     @GetMapping("/admin/relatorios")
     public String relatorios(Model model, HttpSession session) {
@@ -144,6 +163,18 @@ public class HelloController {
         model.addAttribute("totalGastos", gastos);
         model.addAttribute("lucroLiquido", faturamento - gastos);
         return "Admin/relatorios";
+    }
+
+    @GetMapping("/admin/relatorios/imprimir")
+    public String imprimirRelatorio(Model model, HttpSession session) {
+        if (session.getAttribute("usuarioLogado") == null) return "redirect:/login";
+        
+        model.addAttribute("vendas", vendaRepository.findAll());
+        model.addAttribute("produtos", repository.findAll());
+        Double faturamento = vendaRepository.findAll().stream().mapToDouble(Venda::getValorVenda).sum();
+        model.addAttribute("totalFaturado", faturamento);
+        
+        return "Admin/relatorio-vendas-pdf"; 
     }
 
     @GetMapping("/admin/relatorios/excel")
@@ -160,4 +191,13 @@ public class HelloController {
         writer.flush();
         writer.close();
     }
+
+@PostMapping("/admin/produtos/salvar")
+public String salvarProduto(Tenda tenda) {
+    // O Spring já vai vincular o 'imagemUrl' do HTML com o campo da classe Tenda
+    // Ajustado para usar o nome da variável 'repository' que você já declarou no topo
+    repository.save(tenda); 
+    return "redirect:/admin/produtos";
 }
+}
+

@@ -135,4 +135,10 @@ button, .botao {
 
 button:hover {
     background: #e65c00;
+
+.ajuda-container { position: fixed; bottom: 100px; right: 30px; z-index: 1000; display: flex; align-items: center; }
+.avatar-ajuda { width: 60px; height: 60px; cursor: pointer; background: var(--laranja); border-radius: 50%; padding: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+.balao-dica { background: white; color: black; padding: 10px; border-radius: 10px; margin-right: 15px; font-size: 0.8rem; width: 150px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: relative; }
+
+    
 }

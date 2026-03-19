@@ -36,4 +36,12 @@ public class Tenda {
 
     public Integer getQuantidade() { return quantidade; }
     public void setQuantidade(Integer quantidade) { this.quantidade = quantidade; }
+// Campo para a foto real
+    private String imagemUrl;
+
+    // Getters e Setters da Imagem (Essencial para funcionar!)
+    public String getImagemUrl() { return imagemUrl; }
+    public void setImagemUrl(String imagemUrl) { this.imagemUrl = imagemUrl; }
+
+
 }
