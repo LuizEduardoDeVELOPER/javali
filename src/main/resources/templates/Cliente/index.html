@@ -2,167 +2,58 @@
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Casa das Tendas - Brasília</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --laranja: #ff6600; --preto: #000000; --cinza: #1a1a1a; }
-        body { background: var(--preto); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; scroll-behavior: smooth; }
-        
-        /* Menu Superior */
-        nav { background: #000; border-bottom: 2px solid var(--laranja); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 1.5rem; font-weight: bold; }
-        .menu-links a { color: white; text-decoration: none; margin-left: 25px; font-weight: 500; transition: 0.3s; }
-        .menu-links a:hover { color: var(--laranja); }
-        .btn-admin-nav { background: var(--laranja); color: white !important; padding: 8px 20px; border-radius: 5px; }
-
-        /* Banner Hero Carrossel */
-        .hero { height: 450px; background-size: cover; background-position: center; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: background-image 1s ease-in-out; }
-
-        /* Assistente Virtual e WhatsApp */
-        .ajuda-container { position: fixed; bottom: 100px; right: 30px; z-index: 1000; display: flex; align-items: center; }
-        .avatar-ajuda { width: 65px; height: 65px; cursor: pointer; background: var(--laranja); border-radius: 50%; padding: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 2px solid white; }
-        .balao-dica { background: white; color: black; padding: 12px; border-radius: 12px; margin-right: 15px; font-size: 0.85rem; width: 180px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-weight: 500; position: relative; }
-        .balao-dica::after { content: ''; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); border-left: 10px solid white; border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
-        .wpp-float { position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
-
-        /* Grid de Produtos */
-        section { padding: 80px 50px; }
-        .titulo-sessao { text-align: center; margin-bottom: 40px; font-size: 2.2rem; }
-        .titulo-sessao span { color: var(--laranja); }
-        .grid-produtos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .card { background: var(--cinza); border-radius: 12px; border: 1px solid #333; overflow: hidden; transition: 0.4s; text-align: center; }
-        .card:hover { transform: translateY(-10px); border-color: var(--laranja); }
-        .card img { width: 100%; height: 220px; object-fit: cover; }
-        .info { padding: 20px; }
-
-        /* Modal */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
-        .modal-content { background: var(--cinza); margin: 5% auto; padding: 30px; width: 90%; max-width: 400px; border-radius: 10px; border-top: 5px solid var(--laranja); }
-        .modal-content input { width: 100%; padding: 12px; margin: 10px 0; background: #333; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; }
-    </style>
+    <title>Sistema de Vendas de Tendas</title>
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
 </head>
 <body>
 
     <nav>
-        <div class="logo">CASA DAS <span style="color: var(--laranja);">TENDAS</span></div>
         <div class="menu-links">
             <a href="#">Início</a>
-            <a href="#sobre">Sobre Nós</a>
-            <a href="#produtos">Produtos</a>
-            <a href="#localizacao">Localização</a>
-            <a th:href="@{/login}" class="btn-admin-nav">Painel Admin</a>
+            <a href="#vendas">Produtos</a>
+            <a href="#">Pedidos</a>
+            <a href="#">Contato</a>
         </div>
+        <a th:href="@{/login}" class="btn-login">Login</a>
     </nav>
 
-    <div class="ajuda-container">
-        <div class="balao-dica" id="dicaTexto">Olá! Sabia que estamos na QNH 3 de Taguatinga?</div>
-        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" class="avatar-ajuda" onclick="proximaDica()">
-    </div>
-
-    <header class="hero" id="slider">
+    <header class="hero-carrossel" 
+            th:style="'background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(' + @{/img/imgtenda1.jpeg} + ');'">
         <div class="hero-content">
-            <h1 style="font-size: 3.5rem;">OFERTA <span style="color: var(--laranja);">IMBATÍVEL</span></h1>
-            <p style="font-size: 1.3rem;">Estrutura Resistente - Lona em PVC - O Melhor Preço de Brasília!</p>
-            <br>
-            <a href="#produtos" style="background:var(--laranja); color:white; padding:15px 30px; text-decoration:none; font-weight:bold; border-radius:5px;">VER CATÁLOGO</a>
+            <h1>Bem-Vindo ao Sistema de Vendas de Tendas</h1>
+            <p>As melhores tendas para seu evento!</p>
+            <a href="#vendas" class="btn-ver-produtos">Ver Produtos</a>
         </div>
     </header>
 
-    <section id="sobre" style="background: #0a0a0a;">
-        <h2 class="titulo-sessao">SOBRE <span>NÓS</span></h2>
-        <div style="max-width: 800px; margin: 0 auto; text-align: center; line-height: 1.8;">
-            <p>Referência em Taguatinga Norte, a Casa das Tendas BSB oferece as melhores soluções em coberturas de Brasília. Especialistas em tendas sanfonadas e piramidais de alta durabilidade.</p>
-        </div>
-    </section>
-
-    <section id="produtos">
-        <h2 class="titulo-sessao">NOSSOS <span>PRODUTOS</span></h2>
-        <div class="grid-produtos">
-            <div class="card" th:each="t : ${produtos}">
-                <img th:src="${t.imagemUrl != null && !t.imagemUrl.isEmpty() ? t.imagemUrl : 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=500'}" alt="Tenda">
-                <div class="info">
-                    <h3 th:text="${t.nome}">Nome</h3>
-                    <p style="color: #888; font-size: 0.9rem;" th:text="${t.tamanho != null ? t.tamanho : 'Tamanho sob consulta'}"></p>
-                    <div style="color: var(--laranja); font-size: 1.5rem; font-weight: bold; margin: 10px 0;" 
-                         th:text="'R$ ' + ${t.preco}"></div>
-                    
-                    <button type="button" 
-                            style="background:var(--laranja); border:none; color:white; padding:10px 20px; width:100%; border-radius:5px; cursor:pointer; font-weight:bold;"
-                            th:attr="data-nome=${t.nome}, data-preco=${t.preco}"
-                            onclick="abrirModal(this.getAttribute('data-nome'), this.getAttribute('data-preco'))">
-                        COMPRAR AGORA
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="modalCompra" class="modal">
-        <div class="modal-content">
-            <h2 style="color: var(--laranja); text-align: center;">Finalizar Pedido</h2>
-            <p id="tendaNome" style="text-align: center; font-weight: bold;"></p>
-            <form th:action="@{/api/vendas/finalizar}" method="post">
-                <input type="hidden" name="nomeTenda" id="inputNome">
-                <input type="hidden" name="valorVenda" id="inputPreco">
-                <input type="text" name="nomeComprador" placeholder="Nome Completo" required>
-                <input type="text" name="cpfComprador" placeholder="CPF" required>
-                <input type="text" name="telefoneComprador" placeholder="WhatsApp" required>
-                <button type="submit" style="background:var(--laranja); color:white; border:none; width:100%; padding:15px; border-radius:5px; cursor:pointer; font-weight:bold; margin-top:10px;">CONFIRMAR COMPRA</button>
-                <button type="button" onclick="fecharModal()" style="background:none; color:gray; border:none; width:100%; margin-top:10px; cursor:pointer;">Cancelar</button>
-            </form>
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" placeholder="Buscar tendas...">
+            <button>Buscar</button>
         </div>
     </div>
+<main class="container" id="vendas">
+    <h2 style="color: #333; margin-bottom: 25px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+        Tendas em Destaque
+    </h2>
 
-    <section id="localizacao" style="background: #0a0a0a;">
-        <h2 class="titulo-sessao">ONDE <span>ESTAMOS</span></h2>
-        <div style="text-align: center;">
-            <p><i class="fas fa-map-marker-alt" style="color: var(--laranja);"></i> QNH 3 - Taguatinga Norte, Brasília - DF</p>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3839.123456789!2d-48.069!3d-15.808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDQ4JzI4LjgiUyA0OMKwMDQnMTEuMiJX!5e0!3m2!1spt-BR!2sbr!4v1620000000000!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0; border-radius: 15px; margin-top: 20px; filter: invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy"></iframe>
+    <div class="grid-vendas">
+        <div class="card-venda" th:each="t : ${produtos}">
+            <img th:src="${t.imagemUrl != null ? t.imagemUrl : '/img/imgtenda1.jpeg'}" alt="Tenda">
+            <div class="card-body">
+                <h3 th:text="${t.nome}">Nome da Tenda</h3>
+                <div class="preco" th:text="'R$ ' + ${t.preco}">R$ 0,00</div>
+                <button class="btn-comprar">Comprar</button>
+            </div>
         </div>
-    </section>
+    </div>
+</main>
 
-    <a href="https://wa.me/5561999133335" class="wpp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <script>
-        // Lógica do Carrossel (3 segundos)
-        const imagens = [
-            'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1200',
-            'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1200',
-            'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=1200'
-        ];
-        let idx = 0;
-        function mudarBanner() {
-            document.getElementById('slider').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${imagens[idx]}')`;
-            idx = (idx + 1) % imagens.length;
-        }
-        setInterval(mudarBanner, 3000);
-        mudarBanner();
-
-        // Lógica do Assistente Virtual
-        const dicas = [
-            "Sabia que entregamos em todo o DF?",
-            "Tendas sanfonadas montam em apenas 2 minutos!",
-            "Estamos na QNH 3, Taguatinga Norte!",
-            "Precisa de tenda piramidal? Temos os melhores preços!"
-        ];
-        let dIdx = 0;
-        function proximaDica() {
-            dIdx = (dIdx + 1) % dicas.length;
-            document.getElementById('dicaTexto').innerText = dicas[dIdx];
-        }
-
-        // Funções do Modal
-        function abrirModal(nome, preco) {
-            document.getElementById('modalCompra').style.display = 'block';
-            document.getElementById('tendaNome').innerText = "Produto: " + nome;
-            document.getElementById('inputNome').value = nome;
-            document.getElementById('inputPreco').value = preco;
-        }
-        function fecharModal() {
-            document.getElementById('modalCompra').style.display = 'none';
-        }
-    </script>
+<section class="container" id="sobre" style="background: #fff; margin-top: 40px;">
+    <h2 style="text-align:center; color: #2b579a;">SOBRE A CASA DAS TENDAS</h2>
+    <p style="text-align:center; max-width: 800px; margin: 0 auto; color: #666;">
+        Fabricação própria na QNH 3 de Taguatinga Norte. Qualidade e durabilidade para seu evento.
+    </p>
+</section>
 </body>
 </html>
